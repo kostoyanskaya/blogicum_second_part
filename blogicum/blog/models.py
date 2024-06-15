@@ -1,14 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from core.models import BaseBlogModel
 from blog.constants import MAX_FIELD_LENGTH, REPRESANTATION_LENGHT
-from core.models import PublishedModel
 
 
 User = get_user_model()
 
 
-class Location(PublishedModel):
+class Location(BaseBlogModel):
 
     name = models.CharField(
         max_length=MAX_FIELD_LENGTH,
@@ -23,7 +23,7 @@ class Location(PublishedModel):
         return self.name[:REPRESANTATION_LENGHT]
 
 
-class Category(PublishedModel):
+class Category(BaseBlogModel):
     title = models.CharField(
         max_length=MAX_FIELD_LENGTH,
         verbose_name='Заголовок'
@@ -45,7 +45,7 @@ class Category(PublishedModel):
         return self.title[:REPRESANTATION_LENGHT]
 
 
-class Post(PublishedModel):
+class Post(BaseBlogModel):
     title = models.CharField(
         max_length=MAX_FIELD_LENGTH,
         verbose_name='Заголовок'
@@ -80,7 +80,7 @@ class Post(PublishedModel):
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
-        ordering = ['-pub_date']
+        ordering = ('-pub_date',)
 
     def __str__(self):
         return self.title[:REPRESANTATION_LENGHT]
