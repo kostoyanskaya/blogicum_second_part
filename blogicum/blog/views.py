@@ -10,22 +10,18 @@ def filter_posts(post_objects):
         is_published=True,
         pub_date__lt=now(),
         category__is_published=True
-    )
+    ).select_related('author', 'location', 'category')
 
 
 def index(request):
-    posts = filter_posts(Post.objects.select_related(
-        'author', 'location', 'category'
-    ))[:POSTS_BY_PAGE]
+    posts = filter_posts(Post.objects)[:POSTS_BY_PAGE]
 
     return render(request, 'blog/index.html', {'post_list': posts})
 
 
 def post_detail(request, id):
     post = get_object_or_404(
-        filter_posts(Post.objects.select_related(
-            'author', 'location', 'category'
-        )),
+        filter_posts(Post.objects),
         id=id,
     )
 
@@ -38,9 +34,7 @@ def category_posts(request, category_slug):
         slug=category_slug,
         is_published=True,
     )
-    posts = filter_posts(category.posts.select_related(
-        'author', 'location', 'category'
-    ))
+    posts = filter_posts(category.posts)
 
     return render(
         request,

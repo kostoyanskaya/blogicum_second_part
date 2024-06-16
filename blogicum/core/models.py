@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class BaseBlogModel(models.Model):
+class PublishedCreated(models.Model):
     is_published = models.BooleanField(
         default=True,
         verbose_name='Опубликовано',
